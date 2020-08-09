@@ -18,6 +18,7 @@ class BdJobsBdSpider(scrapy.Spider):
             loader.add_xpath('company_name', ".//p[@class='br2']/text()")
             loader.add_xpath('location', ".//span[@class='loc']/text()")
             loader.add_xpath('deadline', ".//div[@class='col-md-6']//p//span/text()")
+            loader.add_xpath('posted_on', ".//i[@class='glyphicon glyphicon-calendar']/following::span[1]/text()")
             loader.add_css('link', "a::attr(href)")
             engineer_lagbe_item = loader.load_item()
             yield scrapy.Request(circular.css('a::attr(href)').get(), callback=self.parse_details,
