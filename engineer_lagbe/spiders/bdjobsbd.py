@@ -2,7 +2,6 @@ import scrapy
 from scrapy.loader import ItemLoader
 from engineer_lagbe.items import EngineerLagbeItem
 
-
 class BdJobsBdSpider(scrapy.Spider):
     name = 'bdjobsbd'
     allowed_domains = ['bdjobs.com.bd']
