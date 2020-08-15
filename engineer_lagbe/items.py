@@ -33,6 +33,7 @@ class EngineerLagbeItem(Item):
     )
     educational_requirements = Field()
     job_responsibility = Field()
+    job_requirements = Field()
     posted_on = Field(
         input_processor=MapCompose(str.strip),
         output_processor=TakeFirst()

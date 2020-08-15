@@ -10,6 +10,18 @@ class BdJobsBdSpider(scrapy.Spider):
     start_urls = [
         'https://jobs.bdjobs.com/jobsearch.asp?fcatId=8'
     ]
+    script = """"
+    function main(splash)
+      assert(splash:autoload("https://code.jquery.com/jquery-3.1.1.min.js"))
+      assert(splash:go("https://jobs.bdjobs.com/jobsearch.asp?fcatId=8"))
+      assert(splash:wait(10.0))
+      assert(splash:runjs('document.getElementsByClassName("prevnext")[1].click()'))
+      assert(splash:wait(10.0))
+      return {
+        html = splash:html()
+        }
+        end
+    """
 
     def start_requests(self):
         for url in self.start_urls:
@@ -17,8 +29,6 @@ class BdJobsBdSpider(scrapy.Spider):
                                 endpoint='render.html',
                                 args={'wait': 2.0},
                                 )
-            # yield SplashRequest(url, self.parse, endpoint='render.html',
-            #                     args={'wait': 0.5, 'viewport': '1024x2480', 'timeout': 90, 'images': 0})
 
     def parse(self, response):
         link_var = "https://jobs.bdjobs.com/"
@@ -55,9 +65,12 @@ class BdJobsBdSpider(scrapy.Spider):
             yield scrapy.Request(link, callback=self.parse_details,
                                  meta={'engineer_lagbe_item': engineer_lagbe_item})
 
-        # next_page = response.xpath(".//ul[@class='pagination']//ul[@class='pagination']//li[last()]//a/@href").get()
-        # if next_page is not None:
-        #     yield scrapy.Request(next_page, callback=self.parse)
+        javascript = response.xpath(".//a[@class='prevnext'][text()='Next »']/@href").get()
+        if javascript:
+            yield SplashRequest(self.start_urls[0], self.parse,
+                                # cookies={'store_language': 'en'},
+                                endpoint='execute',
+                                args={'lua_source': self.script, 'javascript': javascript, 'wait': 5.0})
 
     def parse_details(self, response):
         engineer_lagbe_item = response.meta['engineer_lagbe_item']
