@@ -10,7 +10,7 @@ class BdJobsBdSpider(scrapy.Spider):
     start_urls = [
         'https://jobs.bdjobs.com/jobsearch.asp?fcatId=8'
     ]
-    script = """"
+    script = """
     function main(splash)
       assert(splash:autoload("https://code.jquery.com/jquery-3.1.1.min.js"))
       assert(splash:go("https://jobs.bdjobs.com/jobsearch.asp?fcatId=8"))
