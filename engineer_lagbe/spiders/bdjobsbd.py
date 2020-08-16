@@ -38,5 +38,6 @@ class BdJobsBdSpider(scrapy.Spider):
                          ".//div[@class='col-md-9 jb_details_ri8_mrgn']//div[@class='title_7'][text()='Educational Requirements']/following::div[@class='job_tex'][1]//ul//li/text()")
         loader.add_xpath('job_responsibility',
                          ".//div[@class='col-md-9 jb_details_ri8_mrgn']//div[@class='title_7'][text()='Job Description / Responsibility']/following::div[@class='job_tex'][1]//ul//li/text()")
-
+        loader.add_xpath('job_requirements',
+                         ".//div[@class='col-md-9 jb_details_ri8_mrgn']//div[@class='title_7'][text()='Experience Requirements']/following::div[@class='job_tex'][1]//ul//li/text()")
         yield loader.load_item()

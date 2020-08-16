@@ -88,4 +88,6 @@ class BdJobsBdSpider(scrapy.Spider):
             ".//div[@class='job_des']//h5[text()='Job Responsibilities ']/following::ul[1]//li/text()")]
         loader.item["educational_requirements"] = [item.strip() for item in loader.get_xpath(
             ".//div[@class='edu_req']//h5[text()='Educational Requirements']/following::ul[1]//li/text()")]
+        loader.item["job_requirements"] = [item.strip() for item in loader.get_xpath(
+            ".//div[@class='edu_req']//h5[text()='Experience Requirements']/following::ul[1]//li/text()")]
         yield loader.load_item()
